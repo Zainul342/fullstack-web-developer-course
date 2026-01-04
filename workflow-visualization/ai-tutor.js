@@ -77,18 +77,38 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
         messages.push({ role: 'user', content: userMessage });
 
         try {
-            const response = await fetch(CONFIG.GROQ_API_URL, {
+            // Determine environment: Localhost vs Production
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+            let apiUrl = '/api/chat';
+            let headers = {
+                'Content-Type': 'application/json'
+            };
+
+            // Payload body
+            const body = {
+                model: CONFIG.GROQ_MODEL,
+                messages: messages,
+                max_tokens: CONFIG.MAX_TOKENS,
+                temperature: CONFIG.TEMPERATURE
+            };
+
+            if (isLocal) {
+                // LOCAL MODE: Use direct API call with local config key
+                // Safe only because config.js is git-ignored
+                apiUrl = CONFIG.GROQ_API_URL;
+                headers['Authorization'] = `Bearer ${CONFIG.GROQ_API_KEY}`;
+                console.log('Environment: Local (Direct API Call)');
+            } else {
+                // PRODUCTION MODE: Use Vercel Proxy
+                // Safer because key is on server
+                console.log('Environment: Production (Proxy Call)');
+            }
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${CONFIG.GROQ_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: CONFIG.GROQ_MODEL,
-                    messages: messages,
-                    max_tokens: CONFIG.MAX_TOKENS,
-                    temperature: CONFIG.TEMPERATURE
-                })
+                headers: headers,
+                body: JSON.stringify(body)
             });
 
             if (!response.ok) {
