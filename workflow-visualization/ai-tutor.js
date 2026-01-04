@@ -90,23 +90,6 @@ RULES:
      * Send message to Groq API
      */
     sendMessage: async function (userMessage) {
-        // Get API Key Dynamically
-        const apiKey = this.getApiKey();
-
-        if (!apiKey) {
-            // Trigger UI to ask for key if implementation allows, or return error message
-            // Ideally dispatch an event that UI listens to, but for now we return a helpful message
-            const helpMessage = `⚠️ **API Key Diperlukan**\n\nSaya butuh Groq API Key kamu untuk bekerja. Key ini disimpan AMAN di browser kamu (LocalStorage).\n\n👇 Klik tombol **Settings** di pojok kanan atas panel (atau ikon gear) untuk memasukkan key.`;
-
-            this.chatHistory.push({ role: 'user', content: userMessage });
-            this.chatHistory.push({ role: 'assistant', content: helpMessage });
-
-            return {
-                success: false,
-                message: helpMessage
-            };
-        }
-
         // Build messages array
         const messages = [
             { role: 'system', content: this.systemPrompt }
@@ -132,39 +115,63 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
         // Add current user message
         messages.push({ role: 'user', content: userMessage });
 
+        // STRATEGY: Hybrid (Proxy First -> Fallback to Client Key)
+        let usedStrategy = 'proxy';
+        let apiKey = this.getApiKey(); // Check if user has explicit key
+
         try {
-            const apiUrl = CONFIG.GROQ_API_URL;
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            };
+            let response;
 
-            // Payload body
-            const body = {
-                model: CONFIG.GROQ_MODEL,
-                messages: messages,
-                max_tokens: CONFIG.MAX_TOKENS,
-                temperature: CONFIG.TEMPERATURE
-            };
+            // 1. Try Client Key Strategy IF key exists (User preference override)
+            if (apiKey) {
+                usedStrategy = 'direct';
+                response = await this._callDirectApi(messages, apiKey);
+            }
+            // 2. Otherwise Try Proxy
+            else {
+                try {
+                    response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            messages,
+                            model: CONFIG.GROQ_MODEL,
+                            temperature: CONFIG.TEMPERATURE
+                        })
+                    });
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(body)
-            });
+                    // Check if Proxy successful
+                    if (!response.ok) {
+                        throw new Error('Proxy failed');
+                    }
+                } catch (proxyError) {
+                    // 3. Proxy Failed? Fallback to Direct API (Require Key)
+                    console.warn('Proxy unavailable, falling back to client key...');
 
+                    // Re-check key (maybe we didn't check it yet if we went straight to proxy)
+                    if (!apiKey) {
+                        const helpMessage = `⚠️ **API Key Diperlukan**\n\nServer proxy tidak tersedia (atau belum disetup). Kamu perlu pakai API Key sendiri.\n\n👇 Klik tombol **Settings** di pojok kanan atas untuk input key.`;
+
+                        this.chatHistory.push({ role: 'user', content: userMessage });
+                        this.chatHistory.push({ role: 'assistant', content: helpMessage });
+                        return { success: false, message: helpMessage };
+                    }
+
+                    usedStrategy = 'direct_fallback';
+                    response = await this._callDirectApi(messages, apiKey);
+                }
+            }
+
+            // Handle Response
             if (!response.ok) {
-                const errorData = await response.json();
-
-                // Handle invalid key specifically
+                // If we get here, it means the final attempt failed
                 if (response.status === 401) {
-                    const errorMessage = `❌ **API Key Salah/Expired**\n\nSepertinya API Key yang kamu masukkan tidak valid. Silakan update di Settings.`;
+                    const errorMessage = `❌ **API Key Salah/Expired**\n\nSilakan update di Settings.`;
                     this.chatHistory.push({ role: 'user', content: userMessage });
                     this.chatHistory.push({ role: 'assistant', content: errorMessage });
                     return { success: false, message: errorMessage };
                 }
-
-                throw new Error(errorData.error?.message || 'API request failed');
+                throw new Error('API request failed');
             }
 
             const data = await response.json();
@@ -174,10 +181,7 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
             this.chatHistory.push({ role: 'user', content: userMessage });
             this.chatHistory.push({ role: 'assistant', content: aiMessage });
 
-            return {
-                success: true,
-                message: aiMessage
-            };
+            return { success: true, message: aiMessage };
 
         } catch (error) {
             console.error('AI Tutor Error:', error);
@@ -186,6 +190,25 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
                 message: `❌ Error: ${error.message}. Coba lagi nanti.`
             };
         }
+    },
+
+    /**
+     * Helper: Call Groq API Directly (Client-Side)
+     */
+    _callDirectApi: async function (messages, apiKey) {
+        return fetch(CONFIG.GROQ_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: CONFIG.GROQ_MODEL,
+                messages: messages,
+                max_tokens: CONFIG.MAX_TOKENS,
+                temperature: CONFIG.TEMPERATURE
+            })
+        });
     },
 
     /**
