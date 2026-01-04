@@ -1,53 +1,97 @@
 # Fullstack Web Dev + AI Workflow 🚀
 
-Project ini sebenernya simpel: **Panduan belajar jadi Web Developer jaman now yang coding-nya ditemenin AI.**
+> **Belajar Coding Lebih Cepat & Pinter dengan AI**
 
-Bukan tutorial coding biasa yang ngetik manual satu-satu, tapi lebih ke "gimana cara manfaatin AI (kaya ChatGPT/Claude) buat coding lebih cepet & pinter".
+Project ini adalah **Panduan Interaktif** buat kamu yang mau belajar jadi Web Developer di era AI (2026). Bukan cuma belajar syntax, tapi belajar *workflow* professional pake tools AI kaya ChatGPT, Claude, dan Cursor.
 
-## 🔗 Live Demo
+🔗 **[LIVE DEMO: Cobain Websitenya di Sini](https://workflow-visualization.vercel.app/)**
 
-**[Buka Website (Vercel)](https://workflow-visualization.vercel.app/)**
+---
 
-## Isinya Apa?
+## 🌟 Fitur Utama
 
-Visualisasi workflow (langkah-langkah) dari 0 sampe jadi website beneran. Ada checklist-nya, jadi ketauan progress belajar lu udah sampe mana.
+- **Visual Workflow**: Roadmap 8 fase dari nol sampe deploy, jelas step-by-step-nya.
+- **Interactive Checklist**: Track progress belajar lu, centang yang udah beres.
+- **AI Tutor Integration**: Chatbot pinter yang siap jelasin konsep coding yang lu gak ngerti (Powered by Groq/Llama 3).
+- **No Login Required**: Buka langsung jalan, progress disimpen di browser lho.
+- **Responsive Design**: Belajar dari HP atau Laptop tetep enak.
 
-- **Phase 0-7**: Dari setup tools, coding, sampe deploy.
-- **AI Tutor**: Ada chatbot khusus yang ngerti konteks project ini. Bisa ditanya-tanya kalau bingung.
+## 🛠️ Tech Stack
 
-## Cara Jalanin di Laptop (Local)
+Dibuat sesimpel mungkin biar gampang dipelajari pemula:
 
-Gak perlu install macem-macem (nggak butuh Node.js atau npm buat start, cuma HTML/JS biasa kok).
+- **Frontend**: HTML5, CSS3 (Modern Variables & Flexbox), Vanilla JavaScript (ES6+).
+- **AI Integration**: Groq API (Super fast inference).
+- **Deploy**: Vercel (Serverless Functions untuk keamanan API Key).
+- **Database**: LocalStorage (Di browser masing-masing).
 
-1. **Download/Clone** repo ini.
-2. Masuk ke folder `workflow-visualization`.
-3. Klik 2x file `index.html` (atau `dashboard.html`) biar kebuka di browser.
-4. **Selesai!** Website udah jalan.
+---
 
-### Biar AI-nya Jalan (Optional)
+## 🚀 Cara Pakai (Local)
 
-Kalau mau fitur "Tanya AI Tutor" jalan:
+Mau jalanin di laptop sendiri buat diotak-atik? Gampang:
 
-1. Dapatkan API Key gratis dari [Groq Console](https://console.groq.com).
-2. Di folder `workflow-visualization`, cari file `config.js` (atau buat file `.env` di situ).
-3. Masukin API Key lu di situ.
+1. **Clone Repo ini**
 
-   ```js
-   // config.js
-   GROQ_API_KEY: 'gsk_ini_api_key_lu...',
+   ```bash
+   git clone https://github.com/Zainul342/fullstack-web-developer-course.git
    ```
 
-   *Note: Tenang, file config ini udah di-setting biar gak ke-upload ke GitHub kalau lu push.*
+2. **Masuk ke Folder**
 
-## Cara Deploy (Online)
+   ```bash
+   cd fullstack-web-developer-course/workflow-visualization
+   ```
 
-Paling gampang pake **Vercel**.
+3. **Buka Website**
+   - Klik 2x file `index.html` atau `dashboard.html`.
+   - Atau pake Live Server di VS Code (Recommended).
 
-1. New Project di Vercel -> Import repo ini.
-2. **PENTING**: Di bagian "Root Directory", ganti jadi `workflow-visualization`.
-3. **Environment Variables**:
-   - Key: `GROQ_API_KEY`
-   - Value: (API Key Groq lu)
-4. Deploy.
+4. **Setup AI (Optional)**
+   Kalau mau fitur "Tanya AI" jalan di local:
+   - Buat file `.env` (atau edit `config.js` tapi jangan dicommit).
+   - Isi API Key dari [Groq Console](https://console.groq.com):
 
-Udah gitu doang. Happy coding! ☕
+     ```
+     GROQ_API_KEY=gsk_....
+     ```
+
+---
+
+## 🌐 Cara Deploy (Mau pamer ke temen?)
+
+Gratis tis tis pake **Vercel**:
+
+1. Login ke [Vercel](https://vercel.com).
+2. **Add New Project** -> Import GitHub Repo ini.
+3. **PENTING**: Di setting **"Root Directory"**, pilih folder `workflow-visualization`.
+4. **Environment Variables**:
+   Masukin kunci rahasia biar AI-nya jalan:
+   - Name: `GROQ_API_KEY`
+   - Value: `gsk_...` (API Key Groq lu)
+5. **Deploy!** 🚀
+
+---
+
+## 📂 Struktur Folder
+
+Biar gak bingung sama filenya:
+
+```
+├── workflow-visualization/
+│   ├── api/            # Serverless functions (buat jembatan ke AI)
+│   ├── data/           # Isinya data text task & materi belajar
+│   ├── docs/           # Dokumentasi tambahan (PRD, Arsitektur)
+│   ├── ai-tutor.js     # Otak-nya AI Tutor (Frontend)
+│   ├── script.js       # Logic website
+│   ├── style.css       # Hiasan/Design system
+│   └── index.html      # Halaman utama
+```
+
+---
+
+## 👨‍💻 Author
+
+Dibuat dengan 💻 dan ☕ oleh **Zain**.
+
+*Project ini open source, bebas dipake belajar, diubah, atau dijadiin bahan buat ngajar. Don't forget to star the repo! ⭐*
