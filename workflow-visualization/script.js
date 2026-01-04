@@ -14,7 +14,7 @@ const WORKFLOW_DATA = {
                 {
                     "id": "p0-t1",
                     "label": "Pilih & Install IDE AI",
-                    "description": "**Apa itu?** IDE AI adalah code editor yang sudah terintegrasi dengan AI.\n\n**Pilihan terbaik 2026:**\n• **Cursor** — Standar industri. Fitur 'Composer' bisa edit banyak file sekaligus.\n• **Windsurf** — Alternatif gratis dengan fitur 'Cascade'.\n• **Antigravity** — Opsi baru dengan integrasi Google Gemini.\n\n**Cara install:** Download dari website resmi, install seperti aplikasi biasa. Gratis untuk tier basic.\n\n**Tips:** Jangan langsung bayar subscription $20/bulan. Coba versi gratis dulu 1-2 minggu untuk memahami workflow."
+                    "description": "**Apa itu?**\nCode editor modern yang punya 'otak' AI. Bukan cuma autocomplete, tapi bisa diajak ngoding bareng.\n\n**Rekomendasi 2026:**\n1. **Cursor** (Industry Standard)\nPaling populer. Fitur andalan: *Composer* (bisa edit banyak file sekaligus).\n2. **Windsurf** (Alternatif Kuat)\nPunya fitur *Cascade* yang deeply aware sama context project.\n3. **Antigravity** (Google Ecosystem)\nPower by Gemini 2.0. Cocok kalau suka ekosistem Google.\n\n**Cara Mulai:**\nDownload di website resmi mereka -> Install biasa.\n\n**Pro Tips:**\nPakai Free Tier dulu 1-2 minggu. Jangan buru-buru bayar subscription ($20/bln) sebelum ngerasa cocok sama workflow-nya."
                 },
                 {
                     "id": "p0-t2",
