@@ -525,6 +525,10 @@ const viewLogic = {
             document.getElementById('side-panel').classList.add('hidden');
         });
 
+        document.getElementById('mobile-back-btn')?.addEventListener('click', () => {
+            document.getElementById('side-panel').classList.add('hidden');
+        });
+
         // Status Select Handler
         document.getElementById('panel-status-select')?.addEventListener('change', (e) => {
             const taskId = e.target.getAttribute('data-task-id');
