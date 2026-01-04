@@ -96,14 +96,14 @@ RULES:
         if (!apiKey) {
             // Trigger UI to ask for key if implementation allows, or return error message
             // Ideally dispatch an event that UI listens to, but for now we return a helpful message
+            const helpMessage = `⚠️ **API Key Diperlukan**\n\nSaya butuh Groq API Key kamu untuk bekerja. Key ini disimpan AMAN di browser kamu (LocalStorage).\n\n👇 Klik tombol **Settings** di pojok kanan atas panel (atau ikon gear) untuk memasukkan key.`;
+
             this.chatHistory.push({ role: 'user', content: userMessage });
-            this.chatHistory.push({
-                role: 'assistant',
-                content: `⚠️ **API Key Diperlukan**\n\nSaya butuh Groq API Key kamu untuk bekerja. Key ini disimpan AMAN di browser kamu (LocalStorage).\n\n👇 Klik tombol **Settings** di pojok kanan atas panel (atau ikon gear) untuk memasukkan key.`
-            });
+            this.chatHistory.push({ role: 'assistant', content: helpMessage });
+
             return {
                 success: false,
-                message: 'API Key missing'
+                message: helpMessage
             };
         }
 
@@ -158,9 +158,10 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
 
                 // Handle invalid key specifically
                 if (response.status === 401) {
+                    const errorMessage = `❌ **API Key Salah/Expired**\n\nSepertinya API Key yang kamu masukkan tidak valid. Silakan update di Settings.`;
                     this.chatHistory.push({ role: 'user', content: userMessage });
-                    this.chatHistory.push({ role: 'assistant', content: `❌ **API Key Salah/Expired**\n\nSepertinya API Key yang kamu masukkan tidak valid. Silakan update di Settings.` });
-                    return { success: false, message: 'Invalid API Key' };
+                    this.chatHistory.push({ role: 'assistant', content: errorMessage });
+                    return { success: false, message: errorMessage };
                 }
 
                 throw new Error(errorData.error?.message || 'API request failed');
