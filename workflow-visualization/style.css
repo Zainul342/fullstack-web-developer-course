@@ -1214,3 +1214,132 @@ body {
         padding: 0.75rem 1rem;
     }
 }
+
+/* ========== MOBILE OPTIMIZATIONS (FIXED) ========== */
+@media (max-width: 768px) {
+
+    /* Container & Layout */
+    .app-container {
+        padding: 0 1rem;
+    }
+
+    .main-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    /* Compact Header for Mobile */
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem 0;
+        gap: 1rem;
+        position: relative;
+    }
+
+    /* Top Row: Logo & Action Buttons */
+    .header-left {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-center {
+        width: 100%;
+        order: 3;
+        /* Search at bottom */
+    }
+
+    .header-right {
+        order: 2;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    /* Search Box */
+    .search-box {
+        width: 100%;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Buttons - make them iconic or smaller on mobile */
+    .header-right .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .header-right .btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Phase Card Compact */
+    .phase-card {
+        padding: 1.5rem;
+    }
+
+    .card-header {
+        flex-direction: column-reverse;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-number {
+        font-size: 2.5rem;
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        opacity: 0.5;
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        max-width: 80%;
+        /* Space for number */
+    }
+
+    .card-description {
+        font-size: 0.9rem;
+    }
+
+    /* Progress Container */
+    .progress-container {
+        top: 0;
+        /* Reset sticky top since header height changes */
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+    }
+
+    /* Side Panel Full Width */
+    .side-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-right .btn-secondary span {
+        display: none;
+        /* Hide text, show icon only for secondary actions */
+    }
+
+    .header-right .btn-secondary {
+        padding: 0.6rem;
+    }
+
+    .toggle-overview {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-number {
+        font-size: 2rem;
+    }
+}
