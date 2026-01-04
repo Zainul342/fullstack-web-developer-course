@@ -1215,12 +1215,16 @@ body {
     }
 }
 
-/* ========== MOBILE OPTIMIZATIONS (FIXED) ========== */
+/* ========== MOBILE OPTIMIZATIONS (REFINED) ========== */
 @media (max-width: 768px) {
 
     /* Container & Layout */
     .app-container {
         padding: 0 1rem;
+        width: 100%;
+        /* Ensure full width */
+        overflow-x: hidden;
+        /* Prevent horizontal scroll */
     }
 
     .main-layout {
@@ -1232,16 +1236,16 @@ body {
         display: none;
     }
 
-    /* Compact Header for Mobile */
+    /* Fixed Header Layout */
     .header {
         flex-direction: column;
         height: auto;
         padding: 1rem 0;
         gap: 1rem;
         position: relative;
+        margin-bottom: 2rem;
     }
 
-    /* Top Row: Logo & Action Buttons */
     .header-left {
         width: 100%;
         display: flex;
@@ -1249,78 +1253,95 @@ body {
         align-items: center;
     }
 
-    .header-center {
-        width: 100%;
-        order: 3;
-        /* Search at bottom */
-    }
-
     .header-right {
-        order: 2;
         width: 100%;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        /* Spread buttons evenly */
         gap: 8px;
+        overflow-x: auto;
+        /* Allow scroll if buttons too wide */
+        padding-bottom: 4px;
+        /* Space for scrollbar if needed */
     }
 
-    /* Search Box */
+    /* Search Box - Full Width */
     .search-box {
         width: 100%;
-        padding: 0.5rem 1rem;
+        margin-top: 0.5rem;
     }
 
-    /* Buttons - make them iconic or smaller on mobile */
-    .header-right .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-
-    .header-right .btn svg {
-        width: 14px;
-        height: 14px;
-    }
-
-    /* Phase Card Compact */
+    /* Phase Card Improvements */
     .phase-card {
         padding: 1.5rem;
+        min-height: auto;
+        /* Remove fixed height constraint */
     }
 
     .card-header {
-        flex-direction: column-reverse;
-        gap: 1rem;
+        flex-direction: column;
+        /* Stack vertically, not reverse */
+        align-items: flex-start;
+        gap: 0.5rem;
         margin-bottom: 1.5rem;
+        position: relative;
     }
 
     .card-number {
-        font-size: 2.5rem;
+        font-size: 3rem;
         position: absolute;
-        top: 1rem;
-        right: 1.5rem;
-        opacity: 0.5;
+        right: -10px;
+        top: -10px;
+        opacity: 0.15;
+        /* Make it subtle background */
+        pointer-events: none;
     }
 
     .card-title {
-        font-size: 1.4rem;
-        max-width: 80%;
-        /* Space for number */
+        font-size: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+        position: relative;
+        /* Ensure it sits above number */
+        z-index: 2;
     }
 
     .card-description {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        position: relative;
+        z-index: 2;
     }
 
-    /* Progress Container */
-    .progress-container {
-        top: 0;
-        /* Reset sticky top since header height changes */
-        padding: 1rem 0;
-        margin-bottom: 2rem;
-    }
-
-    /* Side Panel Full Width */
+    /* Side Panel Full Screen & Navigation */
     .side-panel {
         width: 100%;
         max-width: 100%;
+        z-index: 2000;
+        /* Higher than everything */
+    }
+
+    /* Add "Back" button styling for mobile panel header used in JS */
+    .panel-top-controls {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .panel-actions {
+        /* Ensure close button is huge and clickable on mobile */
+    }
+
+    #close-panel {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px;
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Buttons overflow fix */
+    .btn {
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 }
 
@@ -1343,3 +1364,5 @@ body {
         font-size: 2rem;
     }
 }
+
+```
