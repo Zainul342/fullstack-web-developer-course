@@ -4,6 +4,10 @@ Project ini sebenernya simpel: **Panduan belajar jadi Web Developer jaman now ya
 
 Bukan tutorial coding biasa yang ngetik manual satu-satu, tapi lebih ke "gimana cara manfaatin AI (kaya ChatGPT/Claude) buat coding lebih cepet & pinter".
 
+## 🔗 Live Demo
+
+**[Buka Website (Vercel)](https://workflow-visualization.vercel.app/)**
+
 ## Isinya Apa?
 
 Visualisasi workflow (langkah-langkah) dari 0 sampe jadi website beneran. Ada checklist-nya, jadi ketauan progress belajar lu udah sampe mana.
