@@ -1,0 +1,401 @@
+{
+    "meta": {
+        "version": "2.0",
+        "last_updated": "2026-01-04",
+        "source": "best-practice-coding-with-ai.md",
+        "total_tasks": 47
+    },
+    "phases": [
+        {
+            "id": 0,
+            "slug": "setup-env",
+            "title": "1. Persiapan Alat Tempur",
+            "description": "Siapkan environment sebelum coding agar tidak ada friction teknis.",
+            "tasks": [
+                {
+                    "id": "p0-t1",
+                    "label": "Pilih & Install IDE AI",
+                    "details": "Rekomendasi: Cursor ($20/mo) untuk best experience, atau VS Code + Antigravity (Free) untuk pemula.",
+                    "ref_doc": "0.1 IDE Setup"
+                },
+                {
+                    "id": "p0-t2",
+                    "label": "Pilih Mode Kerja IDE",
+                    "details": "Chat (diskusi), Inline (autocomplete), Vision (review UI), atau Agentic (auto).",
+                    "ref_doc": "0.1 IDE Mode"
+                },
+                {
+                    "id": "p0-t3",
+                    "label": "Tentukan Model AI Utama",
+                    "details": "Gemini Flash (Gratis) untuk quick task, Claude Sonnet (Balanced), Claude Opus (Complex reasoning).",
+                    "ref_doc": "0.2 Pemilihan Model AI"
+                },
+                {
+                    "id": "p0-t4",
+                    "label": "Pahami Kriteria Pemilihan Model",
+                    "details": "Planning/Agentic → Claude Opus. Coding → Gemini Pro. Debugging → GPT/o1.",
+                    "ref_doc": "0.2 Kriteria Pemilihan"
+                },
+                {
+                    "id": "p0-t5",
+                    "label": "Setup MCP: Research Tools",
+                    "details": "Install 'context7' (fetch docs terbaru) dan 'firecrawl' (scrape web).",
+                    "mcp_tool": "context7",
+                    "ref_doc": "0.4 MCP Kategori 1"
+                },
+                {
+                    "id": "p0-t6",
+                    "label": "Setup MCP: Browser Testing",
+                    "details": "Install 'chrome-devtools' untuk auto-testing dan inspect DOM.",
+                    "mcp_tool": "chrome-devtools",
+                    "ref_doc": "0.4 MCP Kategori 2"
+                },
+                {
+                    "id": "p0-t7",
+                    "label": "Setup MCP: Database (Optional)",
+                    "details": "Install 'supabase' atau 'firebase' MCP jika pakai backend.",
+                    "mcp_tool": "supabase",
+                    "ref_doc": "0.4 MCP Kategori 3"
+                },
+                {
+                    "id": "p0-t8",
+                    "label": "Buat File Rules Project",
+                    "details": "Buat .cursor/rules.md atau clinerules. Isinya: Do's, Don'ts, Tech Stack, References.",
+                    "ref_doc": "0.5 Rules"
+                },
+                {
+                    "id": "p0-t9",
+                    "label": "Pahami Prinsip Inti AI Coding",
+                    "details": "Human-in-the-Loop WAJIB. Plan → Small Tasks → Verify. Context > Prompting.",
+                    "ref_doc": "Prinsip Inti"
+                },
+                {
+                    "id": "p0-t10",
+                    "label": "Pahami Klaim Tidak Realistis",
+                    "details": "AI TIDAK 100% replace dev. Kode AI SELALU butuh review. Tanpa verifikasi = -19% productivity.",
+                    "ref_doc": "Klaim Tidak Realistis"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "slug": "discovery",
+            "title": "2. Pahami Masalah (Discovery)",
+            "description": "Jangan langsung coding! Validasi dulu ide dan solusinya.",
+            "tasks": [
+                {
+                    "id": "p1-t1",
+                    "label": "Brainstorming dengan AI (Step 1)",
+                    "details": "Gunakan Claude/Gemini dalam mode Thinking/Deep Research untuk generate ide awal.",
+                    "ref_doc": "1.1 Multi-Model Chaining"
+                },
+                {
+                    "id": "p1-t2",
+                    "label": "Riset Realita (Step 2)",
+                    "details": "Pakai Grok/Gemini untuk cari testimoni user, review kompetitor di Reddit/X.",
+                    "ref_doc": "1.1 Step 2 Riset"
+                },
+                {
+                    "id": "p1-t3",
+                    "label": "Validasi Data Pasar (Step 3)",
+                    "details": "Gunakan Perplexity untuk data tren, Google Trends, studi kasus.",
+                    "mcp_tool": "exa",
+                    "ref_doc": "1.1 Step 3 Validasi"
+                },
+                {
+                    "id": "p1-t4",
+                    "label": "Sintesis Jadi Dokumen (Step 4)",
+                    "details": "Rangkum hasil brainstorming jadi: Needs, Pains, Gains.",
+                    "ref_doc": "1.1 Step 4 Synthesis"
+                },
+                {
+                    "id": "p1-t5",
+                    "label": "Identifikasi Needs (Fitur Wajib)",
+                    "details": "Apa fitur yang HARUS ada? Contoh: Login, Dashboard, Payment.",
+                    "ref_doc": "1.2 Framework JTBD"
+                },
+                {
+                    "id": "p1-t6",
+                    "label": "Identifikasi Pains (Masalah User)",
+                    "details": "Apa yang bikin user frustrasi? Contoh: Proses manual lambat, UI ribet.",
+                    "ref_doc": "1.2 Framework JTBD"
+                },
+                {
+                    "id": "p1-t7",
+                    "label": "Riset Kompetitor (5-10 website)",
+                    "details": "Screenshot website serupa, catat kekuatan & kelemahan masing-masing.",
+                    "mcp_tool": "firecrawl",
+                    "ref_doc": "1.3 Riset Solusi"
+                },
+                {
+                    "id": "p1-t8",
+                    "label": "Validasi Tech Stack",
+                    "details": "Pilih teknologi yang feasible berdasarkan timeline, budget, dan skill level kamu.",
+                    "ref_doc": "1.3 Tech Feasibility"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "slug": "documentation",
+            "title": "3. Tulis Dokumentasi (PRD)",
+            "description": "Tulis rencana sebelum satu baris kode pun dibuat.",
+            "tasks": [
+                {
+                    "id": "p2-t1",
+                    "label": "Buat Dokumen PRD.md",
+                    "details": "Isi: Overview, User Personas, User Stories, Tech Stack, Fitur Utama, Timeline.",
+                    "ref_doc": "2.2 PRD.md Template"
+                },
+                {
+                    "id": "p2-t2",
+                    "label": "Buat frontend.md (Reference Desain)",
+                    "details": "Panduan visual: Color palette, typography, component style.",
+                    "ref_doc": "2.1 Required Docs"
+                },
+                {
+                    "id": "p2-t3",
+                    "label": "Buat architecture.md",
+                    "details": "Struktur sistem: File structure, data flow, tech stack detail.",
+                    "ref_doc": "2.1 Required Docs"
+                },
+                {
+                    "id": "p2-t4",
+                    "label": "Update Rules dengan Konteks PRD",
+                    "details": "Tambahkan tech stack, code style, references ke rules.md.",
+                    "ref_doc": "2.2 Cabang Rules"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "slug": "design",
+            "title": "4. Rancangan & Desain",
+            "description": "Visualisasikan solusi (Flow & UI) sebelum implementasi.",
+            "tasks": [
+                {
+                    "id": "p3-t1",
+                    "label": "Gambar Alur Sistem (Flowchart)",
+                    "details": "Proses bisnis end-to-end. Bisa pakai Mermaid atau coretan kertas.",
+                    "ref_doc": "3.1 Alur Sistem"
+                },
+                {
+                    "id": "p3-t2",
+                    "label": "Gambar User Flow & Journey",
+                    "details": "Dari landing → signup → use feature → exit.",
+                    "ref_doc": "3.1 User Flow"
+                },
+                {
+                    "id": "p3-t3",
+                    "label": "Desain Data Schema",
+                    "details": "Struktur database/JSON. Definisi fields, types, constraints.",
+                    "ref_doc": "3.2 Database Design"
+                },
+                {
+                    "id": "p3-t4",
+                    "label": "Pahami Context Engineering",
+                    "details": "4 Pillars: Write, Select, Compress, Isolate context. Ini skill #1 AI 2026.",
+                    "ref_doc": "3.3 Context Engineering"
+                },
+                {
+                    "id": "p3-t5",
+                    "label": "Siapkan Context File Reusable",
+                    "details": "Buat context-projectname.md untuk handoff antar session AI.",
+                    "ref_doc": "3.3 Context Management"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "slug": "development",
+            "title": "5. Eksekusi Coding (Dev)",
+            "description": "Saatnya menulis kode! Ikuti best practice agar bersih.",
+            "tasks": [
+                {
+                    "id": "p4-t1",
+                    "label": "Pilih Strategi: Frontend/Backend First?",
+                    "details": "Small/MVP → Frontend First (UI + Mock Data). Complex → Backend First (API + Auth).",
+                    "ref_doc": "4.1 Development Strategy"
+                },
+                {
+                    "id": "p4-t2",
+                    "label": "Setup Project Structure",
+                    "details": "Buat folder structure sesuai architecture.md.",
+                    "ref_doc": "4.2 Backend Development"
+                },
+                {
+                    "id": "p4-t3",
+                    "label": "Slicing Frontend/UI",
+                    "details": "Gunakan AI Vision untuk convert desain ke kode HTML/CSS/Component.",
+                    "ref_doc": "4.3 Frontend Development"
+                },
+                {
+                    "id": "p4-t4",
+                    "label": "Implementasi Logic/API",
+                    "details": "Routing, Controller, Business Logic sesuai PRD.",
+                    "ref_doc": "4.2 Backend Development"
+                },
+                {
+                    "id": "p4-t5",
+                    "label": "Gunakan Prompting Best Practice",
+                    "details": "English first (hemat 30-50% token). Role prompting. Chain of thought.",
+                    "ref_doc": "Prompting Best Practices"
+                },
+                {
+                    "id": "p4-t6",
+                    "label": "Fetch Docs Terbaru via MCP",
+                    "details": "Stuck? Tanya context7: 'Fetch latest Next.js 15 App Router docs'.",
+                    "mcp_tool": "context7",
+                    "ref_doc": "4.3 Cabang MCP"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "slug": "verification",
+            "title": "6. Verifikasi & Testing",
+            "description": "Jangan percaya AI 100%. Cek, tes, dan validasi.",
+            "tasks": [
+                {
+                    "id": "p5-t1",
+                    "label": "Self-Verification (Manual)",
+                    "details": "Coba sendiri: Apakah fitur jalan? Ada console error? Mobile responsive?",
+                    "ref_doc": "5.2 Self-Verification Checklist"
+                },
+                {
+                    "id": "p5-t2",
+                    "label": "Run Linter & TypeScript Check",
+                    "details": "Pastikan eslint clean, ts-check pass, no warnings.",
+                    "ref_doc": "5.2 Checklist"
+                },
+                {
+                    "id": "p5-t3",
+                    "label": "Auto Testing via MCP (Browser)",
+                    "details": "Minta AI run browser test: 'Test form submission flow via chrome-devtools'.",
+                    "mcp_tool": "chrome-devtools",
+                    "ref_doc": "5.3 Auto Testing"
+                },
+                {
+                    "id": "p5-t4",
+                    "label": "Security Check: Secrets & Input",
+                    "details": "Cek hardcoded secrets (gunakan env vars!). Sanitize user input (SQL Injection).",
+                    "ref_doc": "5.6 Security Automation"
+                },
+                {
+                    "id": "p5-t5",
+                    "label": "Human/AI Code Review",
+                    "details": "Minta AI review: 'Review this code for security vulnerabilities'.",
+                    "ref_doc": "5.4 Code Review"
+                },
+                {
+                    "id": "p5-t6",
+                    "label": "Fix Loop: Iterate Until Pass",
+                    "details": "Run test → identify failure → share error → apply fix → repeat.",
+                    "ref_doc": "5.5 Fix Loop"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "slug": "deployment",
+            "title": "7. Deploy ke Public",
+            "description": "Launch aplikasi agar bisa diakses orang lain.",
+            "tasks": [
+                {
+                    "id": "p6-t1",
+                    "label": "Pilih Platform Deploy",
+                    "details": "Frontend: Vercel/Netlify/Cloudflare. Backend: Railway/Supabase. VPS: Coolify/Dokploy.",
+                    "ref_doc": "6.1 Deployment Options"
+                },
+                {
+                    "id": "p6-t2",
+                    "label": "Set Environment Variables",
+                    "details": "Pastikan semua secrets ada di env vars platform, bukan hardcode.",
+                    "ref_doc": "6.2 Deployment Checklist"
+                },
+                {
+                    "id": "p6-t3",
+                    "label": "Cek HTTPS & Domain",
+                    "details": "SSL certificate aktif. Domain sudah connected.",
+                    "ref_doc": "6.2 Deployment Checklist"
+                },
+                {
+                    "id": "p6-t4",
+                    "label": "Setup CI/CD (Optional)",
+                    "details": "GitHub Actions untuk auto-deploy saat push ke main.",
+                    "ref_doc": "6.2 CI/CD"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "slug": "iteration",
+            "title": "8. Iterasi & Feedback",
+            "description": "Software is never done. Improve based on data.",
+            "tasks": [
+                {
+                    "id": "p7-t1",
+                    "label": "Kumpulkan Feedback User",
+                    "details": "Tanya user langsung, baca support tickets, cek analytics.",
+                    "ref_doc": "7.1 Iteration Loop"
+                },
+                {
+                    "id": "p7-t2",
+                    "label": "Ukur Metrik Kunci",
+                    "details": "Signups, retention rate, revenue, NPS score.",
+                    "ref_doc": "7.1 Measure Metrics"
+                },
+                {
+                    "id": "p7-t3",
+                    "label": "Analisa Feedback dengan AI",
+                    "details": "Minta AI rangkum feedback jadi prioritized action plan untuk v2.",
+                    "ref_doc": "7.1 Analyze with AI"
+                },
+                {
+                    "id": "p7-t4",
+                    "label": "Kembali ke Phase 1 (Discovery)",
+                    "details": "Mulai cycle baru untuk fitur/improvement berikutnya.",
+                    "ref_doc": "7.1 Back to Discovery"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "slug": "fallback",
+            "title": "⚠️ Fallback Plan (Jika AI Gagal)",
+            "description": "Langkah darurat ketika AI tidak memberikan hasil yang diharapkan.",
+            "tasks": [
+                {
+                    "id": "fb-t1",
+                    "label": "Review Konteks yang Diberikan",
+                    "details": "Apakah context cukup lengkap? Tambahkan file/docs yang relevan.",
+                    "ref_doc": "Fallback Plan Step 1"
+                },
+                {
+                    "id": "fb-t2",
+                    "label": "Pecah ke Task Lebih Kecil",
+                    "details": "Task terlalu besar? Breakdown jadi sub-tasks.",
+                    "ref_doc": "Fallback Plan Step 2"
+                },
+                {
+                    "id": "fb-t3",
+                    "label": "Reset Conversation (Fresh Start)",
+                    "details": "Context terlalu panjang/corrupt? Mulai chat baru.",
+                    "ref_doc": "Fallback Plan Step 3"
+                },
+                {
+                    "id": "fb-t4",
+                    "label": "Switch Model AI",
+                    "details": "Claude stuck? Coba Gemini. Gemini stuck? Coba GPT.",
+                    "ref_doc": "Fallback Plan Step 4"
+                },
+                {
+                    "id": "fb-t5",
+                    "label": "Kerjakan Manual (AI sebagai Assistant)",
+                    "details": "Fallback terakhir: Tulis sendiri, minta AI bantu review/debug.",
+                    "ref_doc": "Fallback Plan Step 5"
+                }
+            ]
+        }
+    ]
+}
