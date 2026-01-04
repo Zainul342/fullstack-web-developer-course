@@ -385,13 +385,76 @@ const uiRenderer = {
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/`([^`]+)`/g, '<code>$1</code>')
             .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n• /g, '</p><ul><li>')
-            .replace(/• /g, '<li>')
-            .replace(/\n(\d+)\. /g, '</p><ol><li>')
-            .replace(/\n☐ /g, '<li class="checklist">☐ ')
-            .replace(/\n❌ /g, '<p class="wrong">✗ ')
-            .replace(/\n✅ /g, '<p class="correct">✓ ');
+            .replace(/\n\n/g, '</p><p>');
+
+        // Parse numbered lists more carefully
+        const lines = html.split('\n');
+        let inOrderedList = false;
+        let inUnorderedList = false;
+        let processedLines = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+
+            // Numbered list item
+            if (/^\d+\.\s/.test(line)) {
+                if (!inOrderedList) {
+                    processedLines.push('</p><ol>');
+                    inOrderedList = true;
+                }
+                processedLines.push('<li>' + line.replace(/^\d+\.\s/, '') + '</li>');
+            }
+            // Bullet list item
+            else if (/^•\s/.test(line)) {
+                if (inOrderedList) {
+                    processedLines.push('</ol><p>');
+                    inOrderedList = false;
+                }
+                if (!inUnorderedList) {
+                    processedLines.push('</p><ul>');
+                    inUnorderedList = true;
+                }
+                processedLines.push('<li>' + line.replace(/^•\s/, '') + '</li>');
+            }
+            // Checklist item
+            else if (/^☐\s/.test(line)) {
+                if (inOrderedList) {
+                    processedLines.push('</ol><p>');
+                    inOrderedList = false;
+                }
+                if (!inUnorderedList) {
+                    processedLines.push('</p><ul>');
+                    inUnorderedList = true;
+                }
+                processedLines.push('<li class="checklist">☐ ' + line.replace(/^☐\s/, '') + '</li>');
+            }
+            // Regular line
+            else {
+                if (inOrderedList) {
+                    processedLines.push('</ol><p>');
+                    inOrderedList = false;
+                }
+                if (inUnorderedList) {
+                    processedLines.push('</ul><p>');
+                    inUnorderedList = false;
+                }
+
+                // Special markers
+                if (line.startsWith('❌ ')) {
+                    processedLines.push('<p class="wrong">✗ ' + line.substring(2) + '</p>');
+                } else if (line.startsWith('✅ ')) {
+                    processedLines.push('<p class="correct">✓ ' + line.substring(2) + '</p>');
+                } else {
+                    processedLines.push(line);
+                }
+            }
+        }
+
+        // Close any open lists
+        if (inOrderedList) processedLines.push('</ol><p>');
+        if (inUnorderedList) processedLines.push('</ul><p>');
+
+        html = processedLines.join('\n');
 
         // Wrap sections with h3 headers
         html = html.replace(/\*\*([^*]+):\*\*/g, '</p><h3>$1</h3><p>');
