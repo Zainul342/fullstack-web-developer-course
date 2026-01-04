@@ -75,6 +75,14 @@
                     </svg>
                     Import
                 </button>
+                <div class="divider-vertical"></div>
+                <button id="settings-btn" class="btn btn-icon" aria-label="Settings">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
             </div>
         </header>
 
@@ -192,6 +200,51 @@
                     <button id="reset-progress" class="btn btn-secondary">Reset & Mulai Ulang</button>
                     <button id="close-modal" class="btn btn-primary">Tutup</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- ========== SETTINGS MODAL (API Key) ========== -->
+        <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true">
+            <div class="modal-content settings-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button id="close-settings" class="btn-icon-small">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="settings-group">
+                    <label for="groq-api-key" class="settings-label">
+                        Groq API Key
+                        <span class="badge-mini">Required for AI Tutor</span>
+                    </label>
+                    <p class="settings-desc">
+                        Masukkan API Key dari <a href="https://console.groq.com/keys"
+                            target="_blank">console.groq.com</a>.
+                        Key disimpan aman di browser (LocalStorage).
+                    </p>
+                    <div class="input-group">
+                        <input type="password" id="groq-api-key" class="settings-input" placeholder="gsk_..."
+                            autocomplete="off">
+                        <button id="toggle-key-visibility" class="btn-icon-small" type="button"
+                            aria-label="Toggle Visibility">
+                            <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="save-settings" class="btn btn-primary full-width">Simpan & Tutup</button>
+                </div>
+                <p class="security-note">🔒 Your key never leaves your browser directly to us.</p>
             </div>
         </div>
 

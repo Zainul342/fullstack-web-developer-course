@@ -57,9 +57,54 @@ RULES:
     },
 
     /**
+     * Get API Key from LocalStorage or Ask User
+     */
+    getApiKey: function () {
+        // 1. Check LocalStorage
+        const storedKey = localStorage.getItem('focus_tracker_apikey');
+        if (storedKey) return storedKey;
+
+        // 2. Check Config (fallback for dev only, but empty in prod)
+        if (CONFIG.GROQ_API_KEY && CONFIG.GROQ_API_KEY.includes('gsk_')) {
+            return CONFIG.GROQ_API_KEY;
+        }
+
+        return null;
+    },
+
+    /**
+     * Save API Key to LocalStorage
+     */
+    saveApiKey: function (key) {
+        if (!key.startsWith('gsk_')) {
+            alert('API Key tidak valid. Harus dimulai dengan "gsk_".');
+            return false;
+        }
+        localStorage.setItem('focus_tracker_apikey', key);
+        return true;
+    },
+
+    /**
      * Send message to Groq API
      */
     sendMessage: async function (userMessage) {
+        // Get API Key Dynamically
+        const apiKey = this.getApiKey();
+
+        if (!apiKey) {
+            // Trigger UI to ask for key if implementation allows, or return error message
+            // Ideally dispatch an event that UI listens to, but for now we return a helpful message
+            this.chatHistory.push({ role: 'user', content: userMessage });
+            this.chatHistory.push({
+                role: 'assistant',
+                content: `⚠️ **API Key Diperlukan**\n\nSaya butuh Groq API Key kamu untuk bekerja. Key ini disimpan AMAN di browser kamu (LocalStorage).\n\n👇 Klik tombol **Settings** di pojok kanan atas panel (atau ikon gear) untuk memasukkan key.`
+            });
+            return {
+                success: false,
+                message: 'API Key missing'
+            };
+        }
+
         // Build messages array
         const messages = [
             { role: 'system', content: this.systemPrompt }
@@ -86,12 +131,10 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
         messages.push({ role: 'user', content: userMessage });
 
         try {
-            // Determine environment: Localhost vs Production
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-            let apiUrl = '/api/chat';
-            let headers = {
-                'Content-Type': 'application/json'
+            const apiUrl = CONFIG.GROQ_API_URL;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
             };
 
             // Payload body
@@ -102,18 +145,6 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
                 temperature: CONFIG.TEMPERATURE
             };
 
-            if (isLocal) {
-                // LOCAL MODE: Use direct API call with local config key
-                // Safe only because config.js is git-ignored
-                apiUrl = CONFIG.GROQ_API_URL;
-                headers['Authorization'] = `Bearer ${CONFIG.GROQ_API_KEY}`;
-                console.log('Environment: Local (Direct API Call)');
-            } else {
-                // PRODUCTION MODE: Use Vercel Proxy
-                // Safer because key is on server
-                console.log('Environment: Production (Proxy Call)');
-            }
-
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: headers,
@@ -122,6 +153,14 @@ Jika user bertanya tanpa spesifik, asumsikan tentang task ini.`
 
             if (!response.ok) {
                 const errorData = await response.json();
+
+                // Handle invalid key specifically
+                if (response.status === 401) {
+                    this.chatHistory.push({ role: 'user', content: userMessage });
+                    this.chatHistory.push({ role: 'assistant', content: `❌ **API Key Salah/Expired**\n\nSepertinya API Key yang kamu masukkan tidak valid. Silakan update di Settings.` });
+                    return { success: false, message: 'Invalid API Key' };
+                }
+
                 throw new Error(errorData.error?.message || 'API request failed');
             }
 
